@@ -22,7 +22,7 @@
             <version>42.7.4</version>
         </dependency>
 
-        <!-- Jackson (para manipulação de JSON, opcional se precisar) -->
+        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -40,21 +40,21 @@
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>2.0.0</version> <!-- Verifique a versão mais recente -->
+        <version>2.0.0</version> 
     </dependency>
     
     <!-- Logback Classic -->
     <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.4.0</version> <!-- Verifique a versão mais recente -->
+        <version>1.4.0</version> 
     </dependency>
     
     <!-- Logback Core -->
     <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-core</artifactId>
-        <version>1.4.0</version> <!-- Verifique a versão mais recente -->
+        <version>1.4.0</version> 
     </dependency>
     </dependencies>
 
@@ -66,7 +66,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>com.ti2.cc.App</mainClass> <!-- A classe principal do seu projeto -->
+                    <mainClass>com.ti2.cc.App</mainClass>
                 </configuration>
             </plugin>
 
@@ -76,8 +76,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>21</source> <!-- Define a versão do Java para 21 -->
-                    <target>21</target> <!-- Define o alvo para compilar com Java 21 -->
+                    <source>21</source>
+                    <target>21</target> 
                 </configuration>
             </plugin>
         </plugins>
