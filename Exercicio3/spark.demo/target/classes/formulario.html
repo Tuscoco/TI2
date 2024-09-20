@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Simples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 300px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label, input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .result, .data-section {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="age">Idade:</label>
+        <input type="number" id="age" name="age" required>
+
+        <input type="submit" value="Enviar">
+    </form>
+
+    <div id="result" class="result" style="display: none;">
+        <h3>Dados Enviados</h3>
+        <p><strong>Nome:</strong> <span id="resultName"></span></p>
+        <p><strong>Email:</strong> <span id="resultEmail"></span></p>
+        <p><strong>Idade:</strong> <span id="resultAge"></span></p>
+    </div>
+
+    <div id="dataSection" class="data-section">
+        <h3>Dados Armazenados</h3>
+        <div id="dataList"></div>
+    </div>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const age = document.getElementById('age').value;
+
+            document.getElementById('resultName').innerText = name;
+            document.getElementById('resultEmail').innerText = email;
+            document.getElementById('resultAge').innerText = age;
+            document.getElementById('result').style.display = 'block';
+
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&age=${encodeURIComponent(age)}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                loadData();
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            });
+        });
+
+        function loadData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    const dataList = document.getElementById('dataList');
+                    dataList.innerHTML = '';
+                    data.forEach(user => {
+                        const userDiv = document.createElement('div');
+                        userDiv.innerHTML = `<p><strong>Nome:</strong> ${user.name} <br>
+                                             <strong>Email:</strong> ${user.email} <br>
+                                             <strong>Idade:</strong> ${user.age}</p>`;
+                        dataList.appendChild(userDiv);
+                    });
+                });
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
